@@ -1,0 +1,16 @@
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: forbidrunasrootuser
+spec:
+  crd:
+    spec:
+      names:
+        kind: ForbidRunasRootUser
+
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+{{file.Read "./forbid-run-as-root-user/forbid-run-as-root-user.rego" | indent 8 }}
+
+

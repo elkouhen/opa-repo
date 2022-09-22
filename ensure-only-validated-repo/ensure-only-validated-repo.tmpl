@@ -1,0 +1,21 @@
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: ensureonlyvalidatedrepo
+spec:
+  crd:
+    spec:
+      names:
+        kind: EnsureOnlyValidatedRepo
+      validation:
+        # Schema for the `parameters` field
+        openAPIV3Schema:
+          type: object
+          properties:
+            repo:
+              type: string
+
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+{{file.Read "./ensure-only-validated-repo/ensure-only-validated-repo.rego" | indent 8 }}
