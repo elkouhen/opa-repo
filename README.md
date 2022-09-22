@@ -4,6 +4,10 @@ The policies are implemented via the [Rego](https://www.openpolicyagent.org/docs
 
 On Kubernetes, [Gatekeeper](https://github.com/open-policy-agent/gatekeeper) is the Policy Controller we use; it is based on OPA.
 
+As a Policy Controller, Gatekeeper can :
+* Refuse the deployment of resources that do not respect the policies.
+* Audit the deployed resources and report existing resources that do not respect the polcies
+
 ## Policy List 
 
 List of implemented policies.
@@ -13,11 +17,16 @@ List of implemented policies.
 | Ensure use of images from validated repos  | [link to policy](ensure-only-validated-repo/ensure-only-validated-repo.rego)  |
 | Forbid run as root  | [link to policy](forbid-run-as-root-user/forbid-run-as-root-user.rego)  |
 
-## Policies in Kubernetes 
+## Policies in Kubernetes
 
-### Policy Definition
+* Define a policy template (called ContraintTemplate in Gatekeeper's vocabulary)
+* Deploy it to Kubernetes
+* Apply the policy template (called Constraint)
 
-Each policy is composed of two parts. 
+
+### Policy Template
+
+Each policy template is composed of two parts. 
 
 The first part is the rego file. 
 
@@ -31,7 +40,7 @@ violation[{ "msg": msg }] {
 }
 ```
 
-The second part is the CRD (Custom Resource Definition) that permits deploying the rego file.
+The second part is the CRD (Custom Resource Definition) that permits deploying the rego file in Kubernetes.
 
 ```yaml
 apiVersion: templates.gatekeeper.sh/v1
@@ -47,11 +56,10 @@ spec:
   targets:
     - target: admission.k8s.gatekeeper.sh
       rego: |
-{{file.Read "./denyallpods/denyallpods.rego" | indent 8 }}
-
+[[ REGO FILE CONTENT]]
 ```
 
-### Policy Deployment
-
 ### Policy Application
+
+The policy 
 
