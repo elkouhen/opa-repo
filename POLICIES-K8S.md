@@ -57,8 +57,6 @@ The use of a policy is achieved by deploying a Kubernetes CRD.
 
 
 ```yaml
---- 
-
 apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: DenyAllPods
 metadata:
@@ -69,4 +67,11 @@ spec:
     kinds:
       - apiGroups: [""]
         kinds: ["Pod"]
+```
+
+If the deployed resource does not respect the policy, the deployment is rejected.
+
+```bash 
+kubectl create -f pod.yaml 
+Error from server (Forbidden): error when creating "k8s/helloworld-root-user.yaml": admission webhook "validation.gatekeeper.sh" denied the request: [denyallpods] DEBUG ***
 ```
