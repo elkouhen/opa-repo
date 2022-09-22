@@ -18,4 +18,4 @@ List of implemented policies.
 
 ## Kubernetes & OPA
 
-[cf. section](./POLICIES-K8S.md)
+This [document](./POLICIES-K8S.md) explains the integration of OPA on Kubernetes.
