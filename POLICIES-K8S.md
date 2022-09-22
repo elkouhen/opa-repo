@@ -1,19 +1,19 @@
 # Policies in Kubernetes
 
-This document explains how to deploy OPA policies to a Kubernetes cluster.
+This document explains how to use OPA policies on a Kubernetes cluster.
 
-On Kubernetes, we use [Gatekeeper](https://github.com/open-policy-agent/gatekeeper) as the OPA Policy Controller.
+On Kubernetes, we use [Gatekeeper](./GATEKEEPER-SETUP.md) as the OPA Policy Controller.
 
 As a Policy Controller, Gatekeeper can :
 * Refuse the deployment of resources that do not respect the policies
 * Audit the deployed resources and report existing resources that do not respect the policies
 
-This [document](./GATEKEEPER-SETUP.md) explains how to deploy Gatekeeper on kubernetes.
+## Implementing and using a Policy
 
 The definition and use of a policy is achieved with the following steps
 * Define a policy template (called ContraintTemplate in Gatekeeper's vocabulary)
 * Deploy it to Kubernetes
-* Apply the policy template (called Constraint)
+* Apply the policy template (called Constraint) to Kubernetes resources
 
 
 ## Policy Template
