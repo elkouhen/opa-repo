@@ -53,7 +53,8 @@ spec:
 
 ### Policy Use
 
-The use of a policy is achieved by deploying a Kubernetes CRD.
+The use of a policy is achieved by creating and deploying a Gatekeeper constraint
+* The constraint apply the constraint template to a set of Kubernetes resources and apis. 
 
 
 ```yaml
