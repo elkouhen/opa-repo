@@ -1,6 +1,8 @@
-# Kubernetes Policies
+# Policy Management
 
-The policies are implemented via the [Rego](https://www.openpolicyagent.org/docs/latest/policy-language/) query and assertion language and managed with OPA ([Open Policy Agent](https://www.openpolicyagent.org/)) : OPA can validate JSON resource descriptions regarding a policy implemented in Rego.
+The policies are 
+* Implemented via the [Rego](https://www.openpolicyagent.org/docs/latest/policy-language/) query and assertion language 
+* And managed with OPA ([Open Policy Agent](https://www.openpolicyagent.org/)) : OPA can validate JSON resource descriptions regarding a policy implemented in Rego.
 
 ## Policy List 
 
