@@ -51,11 +51,9 @@ spec:
 [[ REGO CODE ]]
 ```
 
-### Policy Use
+### Policy Usage
 
-The use of a policy is achieved by creating and deploying a Gatekeeper constraint
-* The constraint apply the constraint template to a set of Kubernetes resources and apis. 
-
+The use of a policy is achieved by creating and deploying a Gatekeeper constraint. The constraint apply the constraint template to a set of Kubernetes resources and apis. 
 
 ```yaml
 apiVersion: constraints.gatekeeper.sh/v1beta1
