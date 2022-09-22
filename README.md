@@ -2,12 +2,6 @@
 
 The policies are implemented via the [Rego](https://www.openpolicyagent.org/docs/latest/policy-language/) query and assertion language and managed with OPA ([Open Policy Agent](https://www.openpolicyagent.org/)) : OPA can validate JSON resource descriptions regarding a policy implemented in Rego.
 
-On Kubernetes, [Gatekeeper](https://github.com/open-policy-agent/gatekeeper) is the Policy Controller we use; it is based on OPA.
-
-As a Policy Controller, Gatekeeper can :
-* Refuse the deployment of resources that do not respect the policies.
-* Audit the deployed resources and report existing resources that do not respect the polcies
-
 ## Policy List 
 
 List of implemented policies.
@@ -19,6 +13,14 @@ List of implemented policies.
 
 ## Policies in Kubernetes
 
+On Kubernetes, we use [Gatekeeper](https://github.com/open-policy-agent/gatekeeper) as the OPA Policy Controller.
+
+As a Policy Controller, Gatekeeper can :
+* Refuse the deployment of resources that do not respect the policies.
+* Audit the deployed resources and report existing resources that do not respect the polcies
+
+
+The definition and use of a policy is achieved with the following steps
 * Define a policy template (called ContraintTemplate in Gatekeeper's vocabulary)
 * Deploy it to Kubernetes
 * Apply the policy template (called Constraint)
@@ -40,7 +42,7 @@ violation[{ "msg": msg }] {
 }
 ```
 
-The second part is the CRD (Custom Resource Definition) that permits deploying the rego file in Kubernetes.
+The second part is the CRD (Custom Resource Definition) that embeds the rego file and permits deploying it to Kubernetes.
 
 ```yaml
 apiVersion: templates.gatekeeper.sh/v1
@@ -56,10 +58,25 @@ spec:
   targets:
     - target: admission.k8s.gatekeeper.sh
       rego: |
-[[ REGO FILE CONTENT]]
+[[ REGO CODE ]]
 ```
 
-### Policy Application
+### Policy Use
 
-The policy 
+The use of a policy is achieved by deploying a Kubernetes CRD.
 
+
+```yaml
+--- 
+
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: DenyAllPods
+metadata:
+  name: denyallpods
+spec:
+  enforcementAction: deny
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+```
