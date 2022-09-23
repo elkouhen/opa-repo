@@ -1,4 +1,4 @@
-package ensurevalidatedrepos                                           
+package main                                           
 
 violation[{ "msg": msg }] {
     input.review.kind.kind == "Pod"

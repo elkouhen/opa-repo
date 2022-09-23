@@ -50,6 +50,12 @@ spec:
 [[ REGO CODE ]]
 ```
 
+
+```yaml
+# execute following command at project root folder
+gomplate -f ./ensure-only-validated-repo/ensure-only-validated-repo.tmpl | kubectl apply -f -
+```
+
 ### Policy Usage
 
 The use of a policy is achieved by creating and deploying a Gatekeeper constraint. The constraint apply the constraint template to a set of Kubernetes resources and apis. 

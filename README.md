@@ -1,21 +1,52 @@
-# Policy Management
+# Conftest
 
-This document lists all implemented policies.
+[![Go Report Card](https://goreportcard.com/badge/open-policy-agent/opa)](https://goreportcard.com/report/open-policy-agent/conftest) [![Netlify](https://api.netlify.com/api/v1/badges/2d928746-3380-4123-b0eb-1fd74ba390db/deploy-status)](https://app.netlify.com/sites/vibrant-villani-65041c/deploys)
 
-The policies are 
-* Implemented via the [Rego](https://www.openpolicyagent.org/docs/latest/policy-language/) query and assertion language 
-* And managed with OPA ([Open Policy Agent](https://www.openpolicyagent.org/)) : OPA can validate JSON resource descriptions regarding a policy implemented in Rego.
+Conftest helps you write tests against structured configuration data. Using Conftest you can
+write tests for your Kubernetes configuration, Tekton pipeline definitions, Terraform code,
+Serverless configs or any other config files.
 
-## Policy List 
+Conftest uses the Rego language from [Open Policy Agent](https://www.openpolicyagent.org/) for writing
+the assertions. You can read more about Rego in [How do I write policies](https://www.openpolicyagent.org/docs/how-do-i-write-policies.html)
+in the Open Policy Agent documentation.
 
-List of implemented policies.
+Here's a quick example. Save the following as `policy/deployment.rego`:
 
-| Policy  | File  |
-|---|---|
-| Ensure use of images from validated repos  | [link to policy](ensure-only-validated-repo/ensure-only-validated-repo.rego)  |
-| Forbid run as root  | [link to policy](forbid-run-as-root-user/forbid-run-as-root-user.rego)  |
+```rego
+package main
 
+deny[msg] {
+  input.kind == "Deployment"
+  not input.spec.template.spec.securityContext.runAsNonRoot
 
-## Kubernetes & OPA
+  msg := "Containers must not run as root"
+}
 
-This [linked document](./POLICIES-K8S.md) describes the use of OPA on Kubernetes.
+deny[msg] {
+  input.kind == "Deployment"
+  not input.spec.selector.matchLabels.app
+
+  msg := "Containers must provide app label for pod selectors"
+}
+```
+
+Assuming you have a Kubernetes deployment in `deployment.yaml` you can run Conftest like so:
+
+```console
+$ conftest test deployment.yaml
+FAIL - deployment.yaml - Containers must not run as root
+FAIL - deployment.yaml - Containers must provide app label for pod selectors
+
+2 tests, 0 passed, 0 warnings, 2 failures, 0 exceptions
+```
+
+Conftest isn't specific to Kubernetes. It will happily let you write tests for any configuration files in a variety of different formats. See the [documentation](https://www.conftest.dev/) for [installation instructions](https://www.conftest.dev/install/) and
+more details about the features.
+
+## Want to contribute to Conftest?
+
+* See [DEVELOPMENT.md](DEVELOPMENT.md) to build and test Conftest itself.
+* See [CONTRIBUTING.md](CONTRIBUTING.md) to get started.
+
+For discussions and questions join us on the [Open Policy Agent Slack](https://slack.openpolicyagent.org/)
+in the `#opa-conftest` channel.
