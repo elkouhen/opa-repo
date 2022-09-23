@@ -20,9 +20,8 @@ The definition and use of a policy is achieved with the following steps
 
 Each policy template is composed of two parts. 
 
-The first part is the rego file. 
+The first part is the rego file. Here is a rego rule that denies deployment of all Pods.
 
-Here is a rego rule that denies deployment of all Pods.
 ```
 package denyallpods                                           
 
@@ -72,5 +71,5 @@ If the deployed resource does not respect the policy, the deployment is rejected
 
 ```bash 
 kubectl create -f pod.yaml 
-Error from server (Forbidden): error when creating "k8s/helloworld-root-user.yaml": admission webhook "validation.gatekeeper.sh" denied the request: [denyallpods] DEBUG ***
+Error from server (Forbidden): error when creating "k8s/helloworld.yaml": admission webhook "validation.gatekeeper.sh" denied the request: [denyallpods] DEBUG ***
 ```
