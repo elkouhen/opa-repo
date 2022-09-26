@@ -53,7 +53,9 @@ spec:
 {{file.Read "./denyallpods/denyallpods.rego" | indent 8 }}
 ```
 
-In order to separate the rego code from the Kubernetes code, we externalized the rego code from the ConstraintTemplate with a go template (template code between double braces). 
+For clarity needs, we externalized the rego code from the Kubernetes code by using a go template (the templating code is between double braces in the previous CRD).
+
+In this way, the deployment of the ConstraintTemplate is based on the use of the binary [gomplate](https://gomplate.ca/) (a go template renderer).
 
 ```yaml
 # execute following command at project root folder
@@ -62,7 +64,8 @@ gomplate -f ./ensure-only-validated-repo/ensure-only-validated-repo.tmpl | kubec
 
 ### Constraint
 
-The use of a Rego policy is achieved by creating and deploying a Gatekeeper constraint. The constraint apply the constraint template to a set of Kubernetes resources and apis. 
+The use of a Rego policy is achieved by creating and deploying a Gatekeeper constraint. 
+* The constraint apply the constraint template to a set of Kubernetes resources and apis. 
 
 ```yaml
 apiVersion: constraints.gatekeeper.sh/v1beta1
@@ -88,7 +91,7 @@ Error from server (Forbidden): error when creating "k8s/helloworld.yaml": admiss
 
 On Kubernetes, we use [Gatekeeper](./GATEKEEPER-SETUP.md) as the OPA Policy Controller.
 
-This [linked document](https://open-policy-agent.github.io/gatekeeper/website/docs/install/) explains how to deploy gatekeeper on a Kubernetes cluster.
+This [URL](https://open-policy-agent.github.io/gatekeeper/website/docs/install/) explains how to deploy gatekeeper on a Kubernetes cluster.
 
 For development needs, it is possible to deploy Gatekeeper as following. 
 
