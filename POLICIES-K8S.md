@@ -8,16 +8,20 @@ Gatekeeper is a Policy Controller for Kubernetes. As so, Gatekeeper can :
 
 ## Implementing and using a Policy
 
-The definition and use of a policy is achieved with the following steps
-* Define a policy template (ContraintTemplate Custom Resource Definition (CRD))
-  * Deploy the ContraintTemplate to Kubernetes
-* Define how the policy template (Constraint CRD) applies to Kubernetes resources
-  * Deploy the Contraint to Kubernetes
+The definition of policies is achieved via two kinds of Custom Resource Definitions : the ContraintTemplate and the Constraint.
+
+The ContraintTemplate 
+* Is a nutshell which embeds the Rego policy
+* And Can be parameterized
+
+The Constraint 
+* Specifies the kinds of resources the Rego policy will apply on
+* Specifies the ContraintTemplate parameters
 
 
-### Policy Template
+### ContraintTemplate
 
-Each policy template is composed of two parts. 
+Each ContraintTemplate is composed of two parts. 
 
 The first part is the rego file. Here is a rego rule that denies deployment of all Pods.
 
@@ -46,16 +50,17 @@ spec:
   targets:
     - target: admission.k8s.gatekeeper.sh
       rego: |
-[[ REGO CODE ]]
+{{file.Read "./denyallpods/denyallpods.rego" | indent 8 }}
 ```
 
+In order to separate the rego code from the Kubernetes code, we externalized the rego code from the ConstraintTemplate with a go template (template code between double braces). 
 
 ```yaml
 # execute following command at project root folder
 gomplate -f ./ensure-only-validated-repo/ensure-only-validated-repo.tmpl | kubectl apply -f -
 ```
 
-### Policy Usage
+### Constraint
 
 The use of a Rego policy is achieved by creating and deploying a Gatekeeper constraint. The constraint apply the constraint template to a set of Kubernetes resources and apis. 
 
