@@ -2,7 +2,7 @@
 
 This document explains how to use OPA policies on a Kubernetes cluster.
 
-As a Policy Controller, Gatekeeper can :
+Gatekeeper is a Policy Controller for Kubernetes. As so, Gatekeeper can :
 * Refuse the deployment of resources that do not respect the policies
 * Audit deployed resources and report existing resources that do not respect deployed policies
 
