@@ -2,8 +2,6 @@
 
 This document explains how to use OPA policies on a Kubernetes cluster.
 
-On Kubernetes, we use [Gatekeeper](./GATEKEEPER-SETUP.md) as the OPA Policy Controller.
-
 As a Policy Controller, Gatekeeper can :
 * Refuse the deployment of resources that do not respect the policies
 * Audit deployed resources and report existing resources that do not respect deployed policies
@@ -17,7 +15,7 @@ The definition and use of a policy is achieved with the following steps
   * Deploy the Contraint to Kubernetes
 
 
-## Policy Template
+### Policy Template
 
 Each policy template is composed of two parts. 
 
@@ -59,7 +57,7 @@ gomplate -f ./ensure-only-validated-repo/ensure-only-validated-repo.tmpl | kubec
 
 ### Policy Usage
 
-The use of a policy is achieved by creating and deploying a Gatekeeper constraint. The constraint apply the constraint template to a set of Kubernetes resources and apis. 
+The use of a Rego policy is achieved by creating and deploying a Gatekeeper constraint. The constraint apply the constraint template to a set of Kubernetes resources and apis. 
 
 ```yaml
 apiVersion: constraints.gatekeeper.sh/v1beta1
@@ -74,9 +72,20 @@ spec:
         kinds: ["Pod"]
 ```
 
-If the description of a resource does not respect the deployed Constraints, its deployment is rejected by Gatekeeper.
+Iif the description of a resource does not respect the deployed Constraints, its deployment is rejected by Gatekeeper.
 
 ```bash 
 kubectl create -f pod.yaml 
 Error from server (Forbidden): error when creating "k8s/helloworld.yaml": admission webhook "validation.gatekeeper.sh" denied the request: [denyallpods] DEBUG ***
 ```
+
+## Gatekeeper Deployment
+
+On Kubernetes, we use [Gatekeeper](./GATEKEEPER-SETUP.md) as the OPA Policy Controller.
+
+This [linked document](https://open-policy-agent.github.io/gatekeeper/website/docs/install/) explains how to deploy gatekeeper on a Kubernetes cluster.
+
+For development needs, it is possible to deploy Gatekeeper as following. 
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml

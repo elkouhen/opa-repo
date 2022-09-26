@@ -16,6 +16,6 @@ List of implemented policies.
 | Forbid run as root  | [link to policy](forbid-run-as-root-user/forbid-run-as-root-user.rego)  |
 
 
-## Kubernetes & OPA
+## OPA integration in Kubernetes
 
 This [document](./POLICIES-K8S.md) explains the integration of OPA on Kubernetes.
