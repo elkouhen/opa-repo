@@ -1,7 +1,11 @@
-name: GitHub Actions Opa
+name: Run Opa Tests
 on: [push]
 jobs:
   Run-Opa-Tests:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+    - uses: actions/checkout@master
+    - name: test
+      uses: instrumenta/conftest-action@master
+      with:
+        policy: ensure-only-validated-repo
