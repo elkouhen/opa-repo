@@ -6,14 +6,15 @@ On Kubernetes, we use [Gatekeeper](./GATEKEEPER-SETUP.md) as the OPA Policy Cont
 
 As a Policy Controller, Gatekeeper can :
 * Refuse the deployment of resources that do not respect the policies
-* Audit the deployed resources and report existing resources that do not respect the policies
+* Audit deployed resources and report existing resources that do not respect deployed policies
 
 ## Implementing and using a Policy
 
 The definition and use of a policy is achieved with the following steps
-* Define a policy template (called ContraintTemplate in Gatekeeper's vocabulary)
-* Deploy it to Kubernetes
-* Apply the policy template (called Constraint) to Kubernetes resources
+* Define a policy template (ContraintTemplate Custom Resource Definition (CRD))
+  * Deploy the ContraintTemplate to Kubernetes
+* Define how the policy template (Constraint CRD) applies to Kubernetes resources
+  * Deploy the Contraint to Kubernetes
 
 
 ## Policy Template
@@ -31,7 +32,7 @@ violation[{ "msg": msg }] {
 }
 ```
 
-The second part is the CRD (Custom Resource Definition) that embeds the rego file to permit its deployment to Kubernetes.
+The second part is the ContraintTemplate CRD (Custom Resource Definition) that embeds the rego file to permit its deployment to Kubernetes.
 
 ```yaml
 apiVersion: templates.gatekeeper.sh/v1
@@ -73,7 +74,7 @@ spec:
         kinds: ["Pod"]
 ```
 
-If the deployed resource does not respect the policy, the deployment is rejected.
+If the description of a resource does not respect the deployed Constraints, its deployment is rejected by Gatekeeper.
 
 ```bash 
 kubectl create -f pod.yaml 

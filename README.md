@@ -1,6 +1,6 @@
 # Policy Management
 
-This document lists all implemented policies.
+This document lists implemented policies.
 
 The policies are 
 * Implemented via the [Rego](https://www.openpolicyagent.org/docs/latest/policy-language/) query and assertion language 
