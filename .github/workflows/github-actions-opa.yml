@@ -1,9 +1,11 @@
-name: Run Opa Tests
+name: Test Opa Policies
 on: [push]
 jobs:
   Run-Opa-Tests:
     runs-on: ubuntu-latest
     steps:
       - uses: artis3n/setup-conftest@v0
-      - id: verify
+      - id: ensure-only-validated-repo
         run: conftest verify -p ensure-only-validated-repo
+      - id: forbid-run-as-root-user
+        run: conftest verify -p forbid-run-as-root-user        
