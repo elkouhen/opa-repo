@@ -4,6 +4,7 @@ jobs:
   Run-Opa-Tests:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@master
       - uses: artis3n/setup-conftest@v0
       - id: ensure-only-validated-repo
         run: conftest verify -p ensure-only-validated-repo
