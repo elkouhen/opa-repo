@@ -8,4 +8,5 @@ jobs:
     - name: test
       uses: instrumenta/conftest-action@master
       with:
-        policy: ensure-only-validated-repo
+        policy: ./ensure-only-validated-repo
+        files: ./ensure-only-validated-repo/*-test.rego
