@@ -53,7 +53,7 @@ spec:
 {{file.Read "./denyallpods/denyallpods.rego" | indent 8 }}
 ```
 
-For clarity needs, we externalized the rego code from the Kubernetes code by using a go template (the templating code is between double braces in the previous CRD).
+For clarity needs, we externalized the rego code from the Kubernetes code by using a go template (the templating code is between double braces in the previous CRD and simply includes the rego file).
 
 In this way, the deployment of the ConstraintTemplate is based on the use of the binary [gomplate](https://gomplate.ca/) (a go template renderer).
 
