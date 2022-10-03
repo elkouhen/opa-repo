@@ -4,7 +4,3 @@
 
 image:
   file: .gitpod.dockerfile
-  
-tasks:
-  - init: conftest verify -p ensure-only-validated-repo
-  - init: conftest verify -p forbid-run-as-root-user
